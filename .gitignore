@@ -1,8 +1,6 @@
 # compiled output
 /dist
 /node_modules
-.env
-/test
 
 # Logs
 logs
@@ -15,10 +13,12 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+.env
 
 # Tests
 /coverage
 /.nyc_output
+/test
 
 # IDEs and editors
 /.idea
