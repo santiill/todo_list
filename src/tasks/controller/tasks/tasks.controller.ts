@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  UsePipes,
+  ValidationPipe
+} from "@nestjs/common";
 import { TasksService } from "../../service/tasks/tasks.service";
 import { CreateTaskDto } from "../../dto/CreateTask.dto";
 import { UpdateTaskDto } from "../../dto/UpdateTask.dto";
@@ -9,30 +20,28 @@ export class TasksController {
   constructor(private taskService: TasksService) {}
 
   @Get()
-  getTasks(){
-    return this.taskService.getTasks()
+  async getTasks(){
+    return await this.taskService.getTasks()
   }
 
   @Get(':id')
-  getTaskById(@Param('id', ParseIntPipe) id: number){
-    return this.taskService.getTaskById(id)
+  async getTaskById(@Param('id', ParseIntPipe) id: number){
+    return await this.taskService.getTaskById(id)
   }
 
   @Post()
+  @UsePipes(new ValidationPipe())
   async createTask(@Body() createTask: CreateTaskDto){
-    const created_task = await this.taskService.createTask(createTask)
-    return created_task
+    return await this.taskService.createTask(createTask)
   }
 
   @Put(':id')
-  async updateTask(@Param('id', ParseIntPipe) id: number, @Body() updateTaskDto: UpdateTaskDto){
-    await this.taskService.updateTask(id, updateTaskDto)
-    const updated_task = await this.taskService.getTaskById(id)
-    return updated_task
+  async updateOne(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
+    return await this.taskService.updateTask(id, updateTaskDto)
   }
 
   @Delete(':id')
-  deleteTask(@Param('id', ParseIntPipe) id: number){
-    this.taskService.deleteTask(id)
+  async deleteTask(@Param('id', ParseIntPipe) id: number){
+    await this.taskService.deleteTask(id)
   }
 }

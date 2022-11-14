@@ -1,10 +1,10 @@
 export type CreateTaskParams = {
   title: string;
-  description: string;
+  description?: string;
 }
 
 export type UpdateTaskParams = {
-  title: string;
-  description: string;
-  completed: boolean;
+  title?: string;
+  description?: string;
+  completed?: boolean;
 }
